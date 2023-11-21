@@ -211,12 +211,16 @@ const Navigation = () => {
                   {login === false ? (
                     <MDBDropdownMenu>
                       <MDBDropdownItem link onClick={toregistration}>
-                        signup
+                        login
                       </MDBDropdownItem>
+                    
                     </MDBDropdownMenu>
                   ) : (
                     <MDBDropdownMenu>
                       <MDBDropdownItem link>{username}</MDBDropdownItem>
+                      <MDBDropdownItem  onClick={()=>navigate("/Order")}>
+                       &nbsp;&nbsp; Order
+                      </MDBDropdownItem>
                       <MDBDropdownItem link onClick={logout}>
                         logout
                       </MDBDropdownItem>

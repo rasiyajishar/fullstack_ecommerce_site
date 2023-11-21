@@ -23,7 +23,7 @@ app.put("/productsupdate/:id",imagecontroller, admincontroller.updateProduct);
 app.get("/products/:id", admincontroller.specificProducts);
 app.delete("/product/:id", admincontroller.deleteProduct);
 app.get("/products/category/:category", admincontroller.categoryData);
-app.get("/products", adminVerifyToken, admincontroller.allProducts);
+app.get("/products", admincontroller.allProducts);
  app.get("/products/all", adminVerifyToken, admincontroller.getallProducts);
  
  module.exports=app;

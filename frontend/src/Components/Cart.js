@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import { mycontext } from './Context';
 import { useEffect } from 'react';
 import { Axios } from "../App";
+import axios from 'axios';
 
 const Cart = () => {
   const { setCart, cart,userID,handlePrice } = useContext(mycontext);
@@ -24,7 +25,7 @@ useEffect(() => {
   fetchData();
 },[setCart,userID])
 
-console.log(cart)
+
 
 
 
@@ -42,13 +43,13 @@ setCart(response.data.cart)
 } catch (error) {
   console.log(error)
   // alert(error.response.message)
-  console.log(cart)
 }
 }
 
 
  //  Calculate the total price of items in the cart
- const totalPrice = cart.reduce((acc, product) => acc + (product.product.price * product.quantity, 0));
+ const totalPrice = cart.reduce((acc, product) => acc + (product.product.price * product.quantity), 0);
+
 
 
  // Handle changes in item quantity
@@ -65,8 +66,23 @@ setCart(response.data.cart)
  };
 
 
+ const payment = async () => {
+  try {
+    const id = userID; // Ensure userID is defined
 
-
+    const response = await Axios.get(`/user/order/${id}/payment`);
+    console.log(response);
+    
+    if (response.status === 200) {
+      const url = response.data.url;
+      const confirmation = window.confirm("You are being redirected to the Stripe payment gateway. Continue?");
+      if (confirmation) window.location.replace(url);
+      
+    }
+  } catch (error) {
+    console.log("frontend payment error", error);
+  }
+};
 
 
 
@@ -75,7 +91,8 @@ setCart(response.data.cart)
 
   return (
     <div>
-      <div className='cartpgdisply'>Please Select Your Favourite Items</div>
+      {/* <div className='cartpgdisply'>Please Select Your Favourite Items</div> */}
+      Your total payment is <h2> {totalPrice} </h2>
       {cart.map((product) => (
         <div key={product._id} className='div-m-2'>
           <Card>
@@ -105,7 +122,8 @@ setCart(response.data.cart)
                     <button className='decrementbtn' onClick={() => handleQuantity(product._id, -1)}>
                       -
                     </button>
-                    <p>Total Price: {handlePrice(totalPrice)}.00</p>
+                    {/* <p>Total Price: {handlePrice(totalPrice)}.00</p> */}
+                    <p> Price: {product.product.price}.00</p>
                   </div>
                   <button  onClick={()=>removeFromCart(product.product._id)}>remove item</button>
                 </Card.Body>
@@ -116,7 +134,7 @@ setCart(response.data.cart)
       ))}
 
 
-      <button>Check out</button>
+<button onClick={() => payment()}>Check out</button>
     </div>
   );
 };

@@ -21,6 +21,9 @@ app.put("/cart/:id",usercontroller.updateCartItemQuantity);
 app.post("/products/wishlist/:id", verifyToken, usercontroller.addToWishlist);
 app.get("/wishlist", verifyToken, usercontroller.getWishlist);
 app.delete("/products/wishlist/:id",verifyToken,usercontroller.removeWishlist);
-app.post("/order/:id", verifyToken, usercontroller.orderProducts);
+app.get("/order/:id/payment", usercontroller.payment);
+app.get('/payment/success',usercontroller.paymentSuccess)
+app.get('/payment/cancel',usercontroller.paymentCancel)
+app.get('/showOrders/:id',usercontroller.showOrders)
 
 module.exports=app;

@@ -8,22 +8,22 @@ function Addproduct() {
 
   const handleInputChange = (product) => {
     product.preventDefault();
-    const productname = product.target.name.value;
+    const productname = product.target.title.value;
     console.log(productname);
-    // const producttype = product.target.type.value;
-    // console.log(producttype);
+     const producttype = product.target.category.value;
+     console.log(producttype);
     const productimage = product.target.image.value;
     const productprice = product.target.price.value;
 
-    const productdescription = product.target.descr.value;
+    const productdescription = product.target.description.value;
     setProducts([
       ...products,{
         id:products.length+1,
         name: productname,
         image: productimage,
-        
+        category:producttype,
         price: productprice,
-        descr: productdescription
+        description: productdescription
       }
     ]);
 
@@ -38,11 +38,11 @@ function Addproduct() {
             <label htmlFor="name" className="form-label">
               Name:
             </label>
-            <input type="text" className="form-control" id="name" required />
+            <input type="text" className="form-control" id="title" required />
           </div>
 
           <Form.Select
-            id="type"
+            id="category"
             required
             title="Category"
             aria-label="Default select example"

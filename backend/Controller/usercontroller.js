@@ -1,14 +1,13 @@
 
 const productSchema=require("../Model/productsdb")
-const Razorpay = require("razorpay");
+const mongoose = require("mongoose");
 const userSchema=require("../Model/usersdb")
 const Joi = require('joi'); 
 const bcrypt = require('bcrypt');
-
+const stripe = require("stripe")(process.env.STRIPE_KEY)
 const jwt=require("jsonwebtoken")
-const { Model, Schema } = require("mongoose");
-
-
+const orderdb = require("../Model/orderdb");
+let sValue = {};
 
 // Validation schema for user registration
 const registerValidationSchema = Joi.object({
@@ -367,106 +366,150 @@ const removeCart = async (req, res) => {
   };
 
 
-  // const orderProducts = async (req, res) => {
-  //   try {
-  //     const productId = req.params.id;
-  //     const product = await productSchema.findById(productId);
-  //     if (!product) {
-  //       return res.status(404).json({ message: "product not found" });
-  //     }
-  //     const token = req.cookies.token;
-  //     const verified = jwt.verify(token, "secret-key");
-  //     const user = await userSchema.findOne({ email: verified.email });
+
+  //order &payment
+  const payment = async (req, res) => {
+      try {
+      const userID = req.params.id;
+      const user = await userSchema.findById(userID).populate('cart.product');
+      if (!user) { return res.status(404).json({ message: 'User not found' }) }
+      if (user.cart.length === 0) { return res.status(404).json({ message: 'Cart is empty' }) }
+
+      const line_items = user.cart.map(item => {
+        return {
+            price_data: {
+                currency: 'inr',
+                product_data: {
+                    images: [item.product.image],
+                    name: item.product.title,
+                },
+                unit_amount: Math.round(item.product.price * 100),
+            },
+            quantity: item.quantity,
+        };
+    })
+
+    const session = await stripe.checkout.sessions.create({
+      line_items,
+      mode: 'payment',
+      success_url: 'http://localhost:3000/Paymentsuccess',
+      cancel_url: 'http://localhost:4000/user/payment/cancel',
+  });
+
+  sValue = {userID,user, session};
+
+
+
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Stripe Checkout session created',
+    sessionId: session.id,
+    url: session.url
+})
+    }
+    catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "server error" });
+    }
+    };
+      //  const sUser = user;
+      //  const sess = session
+
+
+//  sValue={}
+
+
+const paymentSuccess = async (req, res) => {
+  // Destructure properties from sValue
+  const  {userID,user, session} = sValue 
+
+  // Extract cart items from the user object
+  const cartItems = user.cart;
+  let odb = true
+
+  // Create a new order in the database using the orderdb model
+  const checkExistingOrder = await orderdb.findOne({ order_id: session.id });
+
+if(!checkExistingOrder){
+  const order = await orderdb.create({
+    // Set the userid in the order document
+    userid: user._id,
+    // Map cart items to an array of product IDs
+    products: cartItems.map((value) => new mongoose.Types.ObjectId(value.product._id)),
+    // Set orderid using the session id
+    order_id: session.id,
+    // Generate a demo payment id based on the current timestamp
+    payment_id: `demo ${Date.now()}`,
+    // Set the total amount from the session, converting it from cents to dollars
+    totalamount: session.amounttotal / 100,     });
+
+
+    await userSchema.updateOne(
+      { _id: user._id },
+      {
+        $push:{ orders:order._id },
+        $set : { cart:[] },
+      }
+      );
+     // Send a JSON response indicating a successful payment
+    return  res.status(200).json({ status: "Success", message: "Payment Successful" });
+
+}
+    
+// const orderId = order._id
+};
+
   
-  //     const orderDate = new Date();
-  //     const { price } = product;
-  
-  //     if (price !== req.body.price) {
-  //       return res
-  //         .status(400)
-  //         .json({ message: "THe entered price does not mach the product price" });
-  //     }
-  
-  //     const instance = new Razorpay({
-  //       key_id: "rzp_test_lcdp3oIEzg2qkR",
-  //       key_secret: "elHVCagf8LjkX7AEhQL194tM",
-  //     });
-  
-  //     const order = await instance.orders.create({
-  //       amount: price * 100,
-  //       currency: "INR",
-  //       receipt: "Receipt",
-  //     });
-  
-  //     user.orders.push({
-  //       product: productId,
-  //       orderId: order.id,
-  //       payment: price,
-  //       orderDate,
-  //     });
-  //     await user.save();
-  //     res.status(200).json({ message: "payment successfull....order comfirmed" });
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(500).json({ message: "server error" });
-  //   }
-  // };
+
+
+
+const paymentCancel = async(req,res)=>{
+    
+    res.status(200).json({status:"Success" , message:"Payment cancelled"})
+
+  }
 
   
   const orderProducts = async (req, res) => {
+
+  };
+
+
+  //show orders
+  const showOrders = async (req, res) => {
     try {
-      const productId = req.params.id;
-      const product = await productSchema.findById(productId);
-  
-      if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
+      const userID = req.params.id;
+      const user = await userSchema.findById(userID).populate('orders');
+     
+      
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
       }
   
-      // const token = req.cookies.token;
-      // const verified = jwt.verify(token, 'secret-key');
-      // const user = await userSchema.findOne({ email: verified.email });
+      const uOrder = user.orders;
   
-      const orderDate = new Date();
-      const { price } = product;
-  
-      // Validate req.body using the Joi schema
-      const { error } = orderValidationSchema.validate(req.body);
-  
-      if (error) {
-        return res.status(400).json({ message: error.details[0].message });
+      if (!uOrder || uOrder.length === 0) {
+        return res.status(200).json({ message: "You have no orders to show" });
       }
+      const orderProductDetails = await orderdb.find({ _id: { $in: uOrder } }).populate("products");
+      // const orderDetails = await Order.find({ _id: { $in: userOrders } }).populate('products');
+      // const populatedOrders = await orderdb.find({ _id: { $in: uOrder.map(order => order._id) } }).populate('products');
+
   
-    
-      if (price !== req.body.price) {
-        return res.status(400).json({ message: 'The entered price does not match the product price' });
-      }
-  
-      const instance = new Razorpay({
-        key_id: 'rzp_test_lcdp3oIEzg2qkR',
-        key_secret: 'elHVCagf8LjkX7AEhQL194tM',
-      });
-  
-      const order = await instance.orders.create({
-        amount: price * 100,
-        currency: 'INR',
-        receipt: 'Receipt',
-      });
-  
-      user.orders.push({
-        product: productId,
-        orderId: order.id,
-        payment: price,
-        orderDate,
-      });
-      await user.save();
-  
-      res.status(200).json({ message: 'Payment successful. Order confirmed' });
+      // Send the order details as a JSON response
+      res.status(200).json({orderProductDetails});
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: 'Server error' });
+      console.error(error);
+      res.status(500).json({ error: "Server error" });
     }
   };
-  
+
+
+
+
+
+
 
 
 
@@ -482,5 +525,10 @@ module.exports={register,
     getWishlist,
     removeWishlist,
     updateCartItemQuantity,
-    orderProducts
+    orderProducts,
+    payment,
+    paymentSuccess,
+    paymentCancel,
+    showOrders
+    
   }

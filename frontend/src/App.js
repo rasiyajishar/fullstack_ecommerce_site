@@ -21,6 +21,7 @@ import {value} from "./Admin/Userdata";
 import Lookbook from './Components/Lookbook';
 import axios from "axios";
 import Order from './Components/Order';
+import Paymentsuccess from './Components/Paymentsuccess';
 
 
 
@@ -40,7 +41,8 @@ const [qty,setQty]=useState(1)
 const [cart,setCart]=useState([]);
 
 const[signup,setSignup]=useState([])
-const[login,setLogin]=useState(false)
+// const[login,setLogin]=useState(false)
+const[login,setLogin]=useState(localStorage.getItem("userID")?true:false)
 const[username,setUsername]=useState()
 const[logout,setLogout]=useState()
 const[searchquery,setSearchquery]=useState('')
@@ -113,6 +115,7 @@ useEffect(() => {
 <Route path="/Registration" element={<Registration />} />
 <Route path='/Lookbook' element={<Lookbook />} />
 <Route path="/Showproduct/:id" element={<Showproduct />} />
+<Route path='Paymentsuccess' element={<Paymentsuccess />} />
 <Route path="/Order" element={<Order />} />
 <Route path='/Admin' element={<Admin_home />} />
 <Route path='/Admin/Productupate' element={<Admin_home />} />

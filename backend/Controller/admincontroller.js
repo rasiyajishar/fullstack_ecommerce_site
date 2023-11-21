@@ -121,7 +121,6 @@ const createProducts = async (req, res) => {
 
 
 
-
 // // Create a product
 // const createProducts = async (req, res) => {
 //   try {

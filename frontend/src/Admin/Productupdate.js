@@ -1,14 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
-
 import { useContext } from "react";
 import { mycontext } from "../Components/Context";
+import { Axios } from '../App';
 
 const Productupdate = () => {
-  const { products,setProducts } = useContext(mycontext);
+  const { products, setProducts } = useContext(mycontext);
   const nav = useNavigate();
-  console.log(products)
+
+  const fetchData = async () => {
+    try {
+      const response = await Axios.get('/admin/products');
+      if (response.status === 200) {
+        setProducts(response.data.data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []); 
+  const deleteProduct = async (id) => {
+    try {
+      const response = await Axios.delete(`admin/product/${id}`);
+      if (response.status === 200) {
+        window.location.reload();
+
+        fetchData();  // Refetch data after deleting a product
+        return;
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
 
   return (
     <div className="tablediv">
@@ -22,22 +50,22 @@ const Productupdate = () => {
             <th>PRICE</th>
             <th>IMAGE</th>
 
-            <th>QUANTITY</th>
+            <th>CATEGORY</th>
             <th>Edit product</th>
             <th>Delete product</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((products, i) => (
-            <tr key={products.id}>
-              <td>{products.id}</td>
+          {products && products.map((products, i) => (
+            <tr key={products._id}>
+              <td>{products._id}</td>
 
-              <td>{products.name}</td>
+              <td>{products.title}</td>
               <td>{products.price}</td>
               <td>
                 <img src={products.image} alt="photos" width={50} />
               </td>
-              <td>{products.quantity}</td>
+              <td>{products.category}</td>
               <td>
                 <Button
                   variant="primary"
@@ -50,10 +78,7 @@ const Productupdate = () => {
                 <Button
                   variant="danger"
                   id={i}
-                  onClick={() =>
-                    setProducts((p) => p.filter((a) => a.id !== products.id))
-                  }
-                >
+                  onClick={() =>deleteProduct(products._id)}>
                   Delete
                 </Button>
               </td>

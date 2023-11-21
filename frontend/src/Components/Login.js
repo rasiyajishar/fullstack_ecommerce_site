@@ -63,14 +63,17 @@ try {
           <input 
           type="email" 
           placeholder="sample@gmail.com" 
-          value={"jiji@gmail.com"}
+          // value={"jiji@gmail.com"}
           ref={emailref}
           />
           <br />
           <br />
           Password
           <br />
-          <input type="password" placeholder="password" ref={passwordref} value={"123456"}/>
+          <input type="password" placeholder="password" ref={passwordref}
+          //  value={"123456"}
+          
+          />
           <br />
           <br />
           <input type="checkbox" /> &nbsp;<label for="vehicle2"> Remember me</label>

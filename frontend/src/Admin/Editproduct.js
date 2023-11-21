@@ -16,9 +16,9 @@ const Editproduct = () => {
 
   // Initialize state for form values
   const [formData, setFormData] = useState({
-    name: '',
+    title: '',
     image: '',
-    type: '',
+    category: '',
     price: '',
     description: '',
   });
