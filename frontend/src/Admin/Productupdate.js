@@ -23,6 +23,9 @@ const Productupdate = () => {
   useEffect(() => {
     fetchData();
   }, []); 
+
+
+
   const deleteProduct = async (id) => {
     try {
       const response = await Axios.delete(`admin/product/${id}`);
@@ -36,6 +39,10 @@ const Productupdate = () => {
       console.log(error.message);
     }
   };
+
+
+
+
 
 
   return (
@@ -80,6 +87,14 @@ const Productupdate = () => {
                   id={i}
                   onClick={() =>deleteProduct(products._id)}>
                   Delete
+                </Button>
+              </td>
+              <td>
+                <Button
+                  variant="primary"
+                  id={i}
+                  onClick={() => nav(`/Admin/productdetail/${products._id}`)}>
+                  get details
                 </Button>
               </td>
             </tr>

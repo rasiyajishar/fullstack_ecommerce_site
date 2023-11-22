@@ -193,15 +193,15 @@ const updateProduct = async (req, res) => {
  
 
 
-//get all products
-const getallProducts = async (req, res) => {
-  try {
-    const allProducts = await productSchema.find();
-    res.json(allProducts);
-  } catch (error) {
-    res.json("error");
-  }
-};
+// //get all products
+// const getallProducts = async (req, res) => {
+//   try {
+//     const allProducts = await productSchema.find();
+//     res.json(allProducts);
+//   } catch (error) {
+//     res.json("error");
+//   }
+// };
 
 const allProducts=async(req,res)=>{
   try{
@@ -251,23 +251,41 @@ const deleteProduct = async (req, res) => {
 
 
 
-
 const categoryData = async (req, res) => {
-  const categoryList = req.params.category;
-  console.log(categoryList);
+  // products/category?name=men
+  const categoryName = req.query.category;
+  console.log(categoryName)
   try {
-    
-    if (categoryList == "nike") {
-      const findproduct = await productSchema.find({ category: { $in: "nike" } });
-      return res.json(findproduct);
-    } else {
-      res.status(404).json("not found the product");
+    const products = await productSchema.find({ category: categoryName })
+    if (!products) {
+      res.json({ message: "product not found" });
     }
+    res.json(products);
   } catch (error) {
-    console.log(err);
-    res.status(500).json("Server Error");
+    res.json("error");
   }
 };
+
+
+
+
+
+// const categoryData = async (req, res) => {
+//   const categoryList = req.params.category;
+//   console.log(categoryList);
+//   try {
+    
+//     if (categoryList == "nike") {
+//       const findproduct = await productSchema.find({ category: cate });
+//       return res.json(findproduct);
+//     } else {
+//       res.status(404).json("not found the product");
+//     }
+//   } catch (error) {
+//     console.log(err);
+//     res.status(500).json("Server Error");
+//   }
+// };
 
   module.exports = {
     login,
@@ -275,10 +293,10 @@ const categoryData = async (req, res) => {
     specificUsers,
     createProducts,
     updateProduct,
-     getallProducts,
+    
     specificProducts,
     deleteProduct,
-    categoryData,
+     categoryData,
      allProducts
     
   }

@@ -123,6 +123,7 @@ useEffect(() => {
 <Route path='/Admin/User' element={<Admin_home />} />
 
 <Route path='/Admin/Userdetail/:id' element={<Admin_home/>} />
+<Route path='/Admin/productdetail/:id' element={<Admin_home/>} />
 
 <Route path='/Admin/Addproduct' element={<Admin_home />} />
 <Route path='Admin/Admin_men' element={<Admin_home />} />

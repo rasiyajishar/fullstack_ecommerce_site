@@ -10,6 +10,7 @@ import Dashboard from "../Admin/Dashboard";
 import Productupdate from "../Admin/Productupdate";
 import User from "../Admin/User";
 import Userdetails from "../Admin/Userdetails";
+import Productdetails from "../Admin/Productdetails";
 import Addproduct from "./Addproduct";
 import Admin_men from "./Admin_men";
 import Admin_women from "./Admin_women";
@@ -22,6 +23,7 @@ const Admin_home = () => {
   const isdash = location.pathname.endsWith("/Admin");
   const isuser = location.pathname.endsWith("/Admin/User");
   const isuserdetails = location.pathname.startsWith("/Admin/Userdetail")
+  const isproductdetails = location.pathname.startsWith("/Admin/productdetail")
   const isaddproduct = location.pathname.endsWith("/Admin/Addproduct");
   const isadminmen=location.pathname.endsWith("Admin/Admin_men");
   const isadminwomen=location.pathname.endsWith("Admin_women");
@@ -91,6 +93,7 @@ const tohomepg=()=>{
         {iseditdetails && <Editproduct />}
         
         {isuserdetails && <Userdetails />}
+        {isproductdetails && <Productdetails />}
       </>
     </div>
   );
