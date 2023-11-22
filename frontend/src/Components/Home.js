@@ -5,16 +5,22 @@ import "../Components/Home.css";
 import Navigation from "./Navigation";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
-
+import { mycontext } from "../Components/Context";
+import { useContext } from "react";
 
 const Home = () => {
   // const [showBasic, setShowBasic] = useState(true);
+const {token,setLogin}=useContext(mycontext)
 
 const navigat=useNavigate();
   const tomen=()=>{
     navigat('/Men')
 
+
   }
+
+  token ? setLogin(true) : setLogin(false)
+
 const towomen=()=>{
   navigat('Women')
 }

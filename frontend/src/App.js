@@ -43,7 +43,7 @@ const [cart,setCart]=useState([]);
 
 const[signup,setSignup]=useState([])
 // const[login,setLogin]=useState(false)
-const[login,setLogin]=useState(localStorage.getItem("userID")?true:false)
+const[login,setLogin]=useState(false)
 const[username,setUsername]=useState()
 const[logout,setLogout]=useState()
 const[searchquery,setSearchquery]=useState('')
@@ -51,11 +51,14 @@ const[searchresults,setSearchresults]=useState([])
 const[products,setProducts]=useState([])
 
 const userID = localStorage.getItem("userID")
+const token = localStorage.getItem("jwt_token")
 
 
 useEffect(() => {
   const fetchData = async ()=>{
     try{
+      // token ? setLogin(true) : setLogin(false)
+
       const response = await Axios.get("/user/products");
       setProducts(response.data.data)
     }
@@ -64,7 +67,7 @@ useEffect(() => {
     }
   }
   fetchData();
-},[])
+},[token])
 
 
  // Function to format a price (₹1,000, ₹10,000)
@@ -100,7 +103,8 @@ useEffect(() => {
           value,
           userID,
           setProducts,
-          handlePrice
+          handlePrice,
+          token
         }}
       >
 
@@ -126,8 +130,7 @@ useEffect(() => {
 <Route path='/Admin/productdetail/:id' element={<Admin_home/>} />
 
 <Route path='/Admin/Addproduct' element={<Admin_home />} />
-<Route path='Admin/Admin_men' element={<Admin_home />} />
-<Route path='Admin/Admin_women' element={<Admin_home />} />
+<Route path='Admin/products/:category' element={<Admin_home />} />
 <Route path='/Admin/Editproduct' element={<Admin_home />} />
 <Route path='/Editproduct/:id' element={<Admin_home />} />
 </Routes>

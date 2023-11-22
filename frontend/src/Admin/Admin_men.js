@@ -1,14 +1,49 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
-import { useContext } from "react";
+
 import { mycontext } from "../Components/Context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Axios } from "../App";
+
+
+
 
 function Admin_men() {
   const nav = useNavigate();
+  const {category}=useParams()
+  console.log(category)
   const { products ,setProducctts} = useContext(mycontext);
+const [categoryData,setCategoryData]= useState([]);
 
-    const filteredproduct=products.filter((product)=>product.type==="men");
+
+
+    // const filteredproduct=products.filter((product)=>product.type==="men");
+
+
+    useEffect(()=>{
+      const fetchData= async () =>{
+        try {
+          const response = await Axios.get(`admin/products/${category}`);
+          console.log(response)
+          // setCategoryData(response.data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      fetchData()
+    },[category]);
+
+  
+  
+
+
+
+
+
+
+
+
+
 
     // const filteredproduct = products.filter(
     //   (e) => e.type.toLowerCase() === "men"
@@ -29,13 +64,13 @@ function Admin_men() {
           </tr>
         </thead>
         <tbody>
-          {filteredproduct.map((products, i) => (
-            <tr key={products.id}>
-              <td>{products.id}</td>
+          {products.map((product, i) => (
+            <tr key={products._id}>
+              <td>{product._id}</td>
 
-              <td>{products.name}</td>
+              <td>{product.title}</td>
               <td>
-                <img src={products.image} alt="photos" width={50} />
+                <img src={product.image} alt="photos" width={50} />
               </td>
               <td>{products.price}</td>
 

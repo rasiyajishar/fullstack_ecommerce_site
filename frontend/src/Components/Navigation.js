@@ -43,7 +43,8 @@ const Navigation = () => {
     setSearchquery,
     searchresults,
     setSearchresults,
-    setUsername
+    setUsername,
+    token
   } = useContext(mycontext);
 
   
@@ -89,7 +90,9 @@ const Navigation = () => {
     setLogin(false);
     alert("logout");
     setUsername('');
+    localStorage.clear()
   };
+  console.log(login);
   
   return (
     <>
@@ -208,7 +211,7 @@ const Navigation = () => {
                   <MDBDropdownToggle tag="a" className="nav-link" role="button">
                     <BsPersonFill />
                   </MDBDropdownToggle>
-                  {login === false ? (
+                  {login === true ? (
                     <MDBDropdownMenu>
                       <MDBDropdownItem link onClick={toregistration}>
                         login

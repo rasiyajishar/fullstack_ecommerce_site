@@ -122,10 +122,11 @@ const createProducts = async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       price: req.body.price,
-      image: req.imageUrl,
+      image: req.body.image,
       category: req.body.category,
     });
-    res.json("product create successfully");
+    const updatedProducts = await productSchema.find()
+    res.json(updatedProducts);
   };
   
 
@@ -170,6 +171,7 @@ const updateProduct = async (req, res) => {
       }
       console.log(productId);
       const { title, description, price, image, category } = req.body;
+      console.log(price)
   
       const result = await productSchema.findByIdAndUpdate(productId, {
         title,
@@ -253,16 +255,16 @@ const deleteProduct = async (req, res) => {
 
 const categoryData = async (req, res) => {
   // products/category?name=men
-  const categoryName = req.query.category;
-  console.log(categoryName)
   try {
+    const categoryName = req.params.category;
+    console.log(categoryName)
     const products = await productSchema.find({ category: categoryName })
     if (!products) {
-      res.json({ message: "product not found" });
+      return res.json({ message: "product not found" });
     }
     res.json(products);
   } catch (error) {
-    res.json("error");
+    res.json("hello");
   }
 };
 

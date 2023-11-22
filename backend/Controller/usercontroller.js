@@ -104,7 +104,7 @@ const userLogin = async (req, res) => {
       if (passwordMatch) {
         const token = jwt.sign({ email: login.email }, "secret-key");
         res.cookie("token", token);
-        res.json({ message: "User logged in successfully", userID: login._id });
+        res.json({ message: "User logged in successfully", userID: login._id,jwt_token:token });
         return;
       }
     }

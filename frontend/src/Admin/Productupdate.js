@@ -76,7 +76,7 @@ const Productupdate = () => {
               <td>
                 <Button
                   variant="primary"
-                  onClick={() => nav(`/Editproduct/${products.id}`)}
+                  onClick={() => nav(`/Editproduct/${products._id}`)}
                 >
                   Edit
                 </Button>

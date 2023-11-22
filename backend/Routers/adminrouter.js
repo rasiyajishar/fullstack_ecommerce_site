@@ -18,12 +18,12 @@ app.post("/login",admincontroller.login)
 
 app.get("/users", admincontroller.allUsers);
 app.get("/users/:id", admincontroller.specificUsers);
-app.post("/products",imagecontroller, admincontroller.createProducts);
-app.put("/productsupdate/:id",imagecontroller, admincontroller.updateProduct);
+app.post("/products", admincontroller.createProducts);
+app.put("/productsupdate/:id", admincontroller.updateProduct);
 app.get("/products/:id", admincontroller.specificProducts);
 app.delete("/product/:id", admincontroller.deleteProduct);
-app.get("/products/category/:category", admincontroller.categoryData);
+app.get("/products/:category", admincontroller.categoryData);
 app.get("/products", admincontroller.allProducts);
- app.get("/products/all", adminVerifyToken, admincontroller.getallProducts);
+// app.get("/products/all", adminVerifyToken, admincontroller.getallProducts);
  
  module.exports=app;

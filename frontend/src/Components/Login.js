@@ -36,6 +36,8 @@ try {
   console.log(response)
   setLogin(true);
   localStorage.setItem("userID", response.data.userID)
+  localStorage.setItem("jwt_token", response.data.jwt_token)
+  console.log(response.data.jwt_token)
   alert(response.data.message)
   nav( email === adminmail ? "/Admin" : "/")
  

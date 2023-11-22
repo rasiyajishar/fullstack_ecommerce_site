@@ -25,8 +25,8 @@ const Admin_home = () => {
   const isuserdetails = location.pathname.startsWith("/Admin/Userdetail")
   const isproductdetails = location.pathname.startsWith("/Admin/productdetail")
   const isaddproduct = location.pathname.endsWith("/Admin/Addproduct");
-  const isadminmen=location.pathname.endsWith("Admin/Admin_men");
-  const isadminwomen=location.pathname.endsWith("Admin_women");
+  const isadminmen=location.pathname.endsWith("Admin/products/men");
+  const isadminwomen=location.pathname.endsWith("Admin/products/women");
   const iseditproduct=location.pathname.endsWith("Admin/Editproduct");
   const iseditdetails=location.pathname.startsWith("/Editproduct/");
   const topro = () => {
@@ -44,11 +44,11 @@ const Admin_home = () => {
     nav("/Admin/Addproduct");
   };
   const toadmin_men = () => {
-    nav("/Admin/Admin_men");
+    nav("/Admin/products/men");
   };
 
 const toadmin_women=()=>{
-  nav("/Admin/Admin_women")
+  nav("/Admin/products/women")
 };
 
 const tohomepg=()=>{

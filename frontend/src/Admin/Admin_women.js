@@ -1,12 +1,36 @@
-import React from 'react'
+
+import React, { useContext, useState, useEffect } from "react";
 import { Button,Table } from 'react-bootstrap'
 import { mycontext } from '../Components/Context'
-import { useContext } from 'react'
+
 import { useNavigate } from 'react-router-dom';
 function Admin_women() {
-  const{products,setProducctts}=useContext(mycontext);
-const filteredproduct=products.filter((product)=>product.type==="women");
+  
+
+
+  const { products ,setProducctts} = useContext(mycontext);
+  const [category,setCategory]= useState(products);
+  const [selectedOption, setSelectedOption] = useState("All");
+  
+
+// const filteredproduct=products.filter((product)=>product.type==="women");
 const nav=useNavigate()
+
+
+
+useEffect(() => {
+  selectedOption === "All"
+     ? setCategory(products)
+     : setCategory(products.filter((product) => product.category === selectedOption));
+}, [selectedOption, products]);
+
+
+
+
+
+
+
+
 
   return (
     <div className='tablediv'>
@@ -24,15 +48,15 @@ const nav=useNavigate()
 </thead>
 <tbody>
 
-  {filteredproduct.map((products,i)=>(
-<tr key={products.id}>
+  {category.map((products,i)=>(
+<tr key={products._id}>
 
-<td>{products.id}</td>
-<td>{products.name}</td>
+<td>{products._id}</td>
+<td>{products.title}</td>
 <td>{products.price}</td>
 <td>{products.image}</td>
 
-<td>{products.quantity}</td>
+{/* <td>{products.quantity}</td> */}
 <td>
                  <Button
                   variant="primary"
