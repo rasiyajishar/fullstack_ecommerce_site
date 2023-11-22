@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   MDBDropdown,
   MDBDropdownMenu,
@@ -9,16 +9,19 @@ import {
 import Dashboard from "../Admin/Dashboard";
 import Productupdate from "../Admin/Productupdate";
 import User from "../Admin/User";
+import Userdetails from "../Admin/Userdetails";
 import Addproduct from "./Addproduct";
 import Admin_men from "./Admin_men";
 import Admin_women from "./Admin_women";
 import Editproduct from "./Editproduct";
 const Admin_home = () => {
+  
   const nav = useNavigate();
   const location = useLocation();
-  const isdash = location.pathname.endsWith("/Admin");
   const isproduct = location.pathname.endsWith("/Admin/Productupate");
+  const isdash = location.pathname.endsWith("/Admin");
   const isuser = location.pathname.endsWith("/Admin/User");
+  const isuserdetails = location.pathname.startsWith("/Admin/Userdetail")
   const isaddproduct = location.pathname.endsWith("/Admin/Addproduct");
   const isadminmen=location.pathname.endsWith("Admin/Admin_men");
   const isadminwomen=location.pathname.endsWith("Admin_women");
@@ -86,6 +89,8 @@ const tohomepg=()=>{
         {isadminwomen && <Admin_women />}
         {iseditproduct && <Editproduct />}
         {iseditdetails && <Editproduct />}
+        
+        {isuserdetails && <Userdetails />}
       </>
     </div>
   );

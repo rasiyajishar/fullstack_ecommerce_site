@@ -22,6 +22,7 @@ import Lookbook from './Components/Lookbook';
 import axios from "axios";
 import Order from './Components/Order';
 import Paymentsuccess from './Components/Paymentsuccess';
+import Userdetails from './Admin/Userdetails';
 
 
 
@@ -120,6 +121,9 @@ useEffect(() => {
 <Route path='/Admin' element={<Admin_home />} />
 <Route path='/Admin/Productupate' element={<Admin_home />} />
 <Route path='/Admin/User' element={<Admin_home />} />
+
+<Route path='/Admin/Userdetail/:id' element={<Admin_home/>} />
+
 <Route path='/Admin/Addproduct' element={<Admin_home />} />
 <Route path='Admin/Admin_men' element={<Admin_home />} />
 <Route path='Admin/Admin_women' element={<Admin_home />} />

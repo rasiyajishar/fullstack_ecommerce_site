@@ -80,25 +80,35 @@ const login = async (req, res) => {
 
 
   //all users
+ 
+
+
   const allUsers = async (req, res) => {
     try {
       const allUsers = await userSchema.find();
-      res.json(allUsers);
+      res.json({ usersdata: allUsers });
     } catch (err) {
-      res.json("error");
-      console.log(err);
+      res.status(500).json({ error: "Internal Server Error" });
+      console.error(err);
     }
   };
+  
   
 
   //specific user
   const specificUsers = async (req, res) => {
     try {
-      const Idusers = await userSchema.findById(req.params.id);
-      if (!Idusers) {
+      const id = req.params.id
+      const user = await userSchema.findById(id).populate({
+          path: 'orders',
+          populate: {
+              path: 'products'
+          }
+      });
+      if (!user) {
         res.json({ message: "user not found" });
       }
-      res.json(Idusers);
+      res.json(user);
     } catch (error) {
       res.json("error");
     }
@@ -218,7 +228,7 @@ const specificProducts = async (req, res) => {
   }
 };
 
-//delet product
+//delete product
 
 const deleteProduct = async (req, res) => {
   try {

@@ -16,7 +16,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 
 app.post("/login",admincontroller.login)
 
-app.get("/users", adminVerifyToken, admincontroller.allUsers);
+app.get("/users", admincontroller.allUsers);
 app.get("/users/:id", admincontroller.specificUsers);
 app.post("/products",imagecontroller, admincontroller.createProducts);
 app.put("/productsupdate/:id",imagecontroller, admincontroller.updateProduct);
