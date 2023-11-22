@@ -3,12 +3,12 @@ import { Card } from 'react-bootstrap';
 import { mycontext } from './Context';
 import { useEffect } from 'react';
 import { Axios } from "../App";
-import axios from 'axios';
+
 
 const Cart = () => {
   const { setCart, cart,userID,handlePrice } = useContext(mycontext);
 
-  // console.log(cart)
+   console.log(cart)
 
   
 useEffect(() => {

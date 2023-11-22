@@ -7,7 +7,6 @@ import { Card } from 'react-bootstrap'
 
 const Showproduct = () => {
   const { userID, cart, setCart } = useContext(mycontext)
-
   const {id}=useParams()
   const [item,setItem] = useState([]);
 
@@ -32,19 +31,19 @@ const nav = useNavigate();
 const passid = async (e) => {
   const id = e.target.id;
   try {
-    
+  
     await Axios.post(`/user/products/cart/${userID}`,{productId: id});
     const response = await Axios.get(`/user/cart/${userID}`);
+    console.log(response)
     setCart(response.data.cart)
 
   } catch (error) {
     console.log(error)
     alert(error.response.message)
-    console.log(cart)
   }
   }
 
-  console.log(cart)
+  // console.log(cart)
 
 
   return (
@@ -74,7 +73,7 @@ const passid = async (e) => {
                 </Card.Text>
                 <div>
                   <br />
-                  {cart.some((value) => value.product._id === id) ? (
+                  { cart && cart.some((value) => value.product._id === id) ? (
                     <button onClick={() => nav("/Cart")}>Go to Cart  </button>
                   ) : (
                     <button id={item._id} onClick={passid}>Add to Cart</button>
