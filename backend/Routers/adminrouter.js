@@ -22,7 +22,9 @@ app.post("/products", admincontroller.createProducts);
 app.put("/productsupdate/:id", admincontroller.updateProduct);
 app.get("/products/:id", admincontroller.specificProducts);
 app.delete("/product/:id", admincontroller.deleteProduct);
+
 app.get("/products/:category", admincontroller.categoryData);
+
 app.get("/products", admincontroller.allProducts);
 // app.get("/products/all", adminVerifyToken, admincontroller.getallProducts);
  

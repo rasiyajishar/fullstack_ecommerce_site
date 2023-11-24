@@ -36,3 +36,48 @@
     transform: rotate(360deg);
   }
 }
+
+/*userdetails
+/* Add these styles to your CSS file or in a style tag in your component */
+.user-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.order-container {
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.product-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.product-details {
+  flex-grow: 1;
+}
+
+.product-title {
+  font-weight: bold;
+}
+
+.order-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.no-orders {
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+}

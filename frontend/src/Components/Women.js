@@ -16,7 +16,8 @@ const idpass=(e)=>{
 
 
 
-  const filteredproduct=products.filter((product)=>product.category==="women");
+  const filteredproduct=products.filter((product)=>product.category==="Women");
+  console.log("filterporduct",filteredproduct);
   return (
     <>
     <div>

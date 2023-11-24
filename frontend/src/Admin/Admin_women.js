@@ -1,63 +1,78 @@
-
 import React, { useContext, useState, useEffect } from "react";
-import { Button,Table } from 'react-bootstrap'
-import { mycontext } from '../Components/Context'
+import { Button, Table } from "react-bootstrap";
 
-import { useNavigate } from 'react-router-dom';
+import { mycontext } from "../Components/Context";
+import { useNavigate, useParams } from "react-router-dom";
+import { Axios } from "../App";
+
+
+
+
 function Admin_women() {
-  
-
-
+  const nav = useNavigate();
+  const { category}=useParams()
+  console.log(category)
   const { products ,setProducctts} = useContext(mycontext);
-  const [category,setCategory]= useState(products);
-  const [selectedOption, setSelectedOption] = useState("All");
+const [categoryData,setCategoryData]= useState([]);
+
+
+
+const filteredproduct=products.filter((product)=>product.category==="Women");
+console.log("filteredproductadmin",filteredproduct)
+    
+
+
+
+
+
+
+
+    useEffect(()=>{
+      const fetchData= async () =>{
+        try {
+          const response = await Axios.get(`admin/products/${category}`);
+          console.log(response)
+           setCategoryData(response.data)
+           console.log(response.data.data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      fetchData()
+    },[category]);
+
   
-
-// const filteredproduct=products.filter((product)=>product.type==="women");
-const nav=useNavigate()
-
-
-
-useEffect(() => {
-  selectedOption === "All"
-     ? setCategory(products)
-     : setCategory(products.filter((product) => product.category === selectedOption));
-}, [selectedOption, products]);
-
-
-
-
-
-
+  
 
 
 
   return (
-    <div className='tablediv'>
- <h2>Product Category Women</h2>
+    <div className="tablediv">
+      <h2>Product Category {category}</h2>
       <Table striped bordered hover>
-<thead>
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>PRICE</th>
-    <th>IMAGE</th>
-    
-    <th>QUANTITY</th>
-  </tr>
-</thead>
-<tbody>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
 
-  {category.map((products,i)=>(
-<tr key={products._id}>
+            <th>Image</th>
+            <th> Price</th>
+            <th>Edit product</th>
+            <th>Delete product</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredproduct.map((product, i) => (
+            <tr key={products._id}>
+              <td>{product._id}</td>
 
-<td>{products._id}</td>
-<td>{products.title}</td>
-<td>{products.price}</td>
-<td>{products.image}</td>
+              <td>{product.title}</td>
+              <td>
+                <img src={product.image} alt="photos" width={50} />
+              </td>
+              <td>{product.price}</td>
 
-{/* <td>{products.quantity}</td> */}
-<td>
+              <td>
                  <Button
                   variant="primary"
                   onClick={() => nav(`/Editproduct/${products.id}`)}
@@ -66,7 +81,7 @@ useEffect(() => {
                 </Button> 
               </td>
               <td>
-                {/* <Button
+                <Button
                   variant="danger"
                   id={i}
                    onClick={() =>
@@ -74,23 +89,14 @@ useEffect(() => {
                   }
                 >
                   Delete
-                </Button>  */}
+                </Button> 
               </td>
-</tr>
-
-
-
-  ))}
-</tbody>
-
-
-
-
-      </Table> 
-
-      
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
-  )
+  );
 }
 
-export default Admin_women
+export default Admin_women;

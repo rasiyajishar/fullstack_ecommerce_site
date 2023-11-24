@@ -57,7 +57,7 @@ const token = localStorage.getItem("jwt_token")
 useEffect(() => {
   const fetchData = async ()=>{
     try{
-      // token ? setLogin(true) : setLogin(false)
+     
 
       const response = await Axios.get("/user/products");
       setProducts(response.data.data)

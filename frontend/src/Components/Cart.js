@@ -14,9 +14,8 @@ const Cart = () => {
 useEffect(() => {
   const fetchData = async ()=>{
     try{  
-      const response = await Axios.get(`/user/cart/${userID}`);
+        const response = await Axios.get(`/user/cart/${userID}`);
       setCart(response.data.cart)
-      
     }
     catch(error){
       console.log(error)

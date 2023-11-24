@@ -95,18 +95,18 @@ const Editproduct = () => {
                     <input
                       type="text"
                       className="form-control"
-                      id="name"
-                      name='name'
+                      id="title"
+                      name='title'
                       value={formData.title}
                       onChange={handleChange}
                     />
                   </div>
 
                   <Form.Select
-                    id="type"
-                    title="Category"
+                    id="caregory"
+                    title="category"
                     aria-label="Default select example"
-                    name="type"
+                    name="category"
                     value={formData.category}
                     onChange={handleChange}
                   >
@@ -142,6 +142,24 @@ const Editproduct = () => {
                       onChange={handleChange}
                     />
                   </div>
+
+
+                  <div className="mb-3">
+                    <label htmlFor="description" className="form-label">
+                      Description:
+                    </label>
+                    <textarea
+                      className="form-control"
+                      id="title"
+                      name='title'
+                      value={formData.title}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+
+
+
 
                   <div className="mb-3">
                     <label htmlFor="description" className="form-label">

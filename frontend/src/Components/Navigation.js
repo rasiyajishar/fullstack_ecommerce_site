@@ -90,9 +90,10 @@ const Navigation = () => {
     setLogin(false);
     alert("logout");
     setUsername('');
+    setCart([]);
     localStorage.clear()
   };
-  console.log(login);
+  console.log("login",login);
   
   return (
     <>
@@ -211,7 +212,7 @@ const Navigation = () => {
                   <MDBDropdownToggle tag="a" className="nav-link" role="button">
                     <BsPersonFill />
                   </MDBDropdownToggle>
-                  {login === true ? (
+                  {login === false ? (
                     <MDBDropdownMenu>
                       <MDBDropdownItem link onClick={toregistration}>
                         login

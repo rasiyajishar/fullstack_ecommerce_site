@@ -6,7 +6,7 @@ import { mycontext } from './Context'
 import { Card } from 'react-bootstrap'
 
 const Showproduct = () => {
-  const { userID, cart, setCart } = useContext(mycontext)
+  const { userID, cart, setCart,login } = useContext(mycontext)
   const {id}=useParams()
   const [item,setItem] = useState([]);
 
@@ -30,19 +30,21 @@ const nav = useNavigate();
 
 const passid = async (e) => {
   const id = e.target.id;
-  try {
+  if(login){
+      await Axios.post(`/user/products/cart/${userID}`,{productId: id});
+      const response = await Axios.get(`/user/cart/${userID}`);
+      console.log(response)
+      setCart(response.data.cart)
   
-    await Axios.post(`/user/products/cart/${userID}`,{productId: id});
-    const response = await Axios.get(`/user/cart/${userID}`);
-    console.log(response)
-    setCart(response.data.cart)
-
-  } catch (error) {
-    console.log(error)
-    alert(error.response.message)
-  }
-  }
-
+  }else{
+     
+        console.log("error")
+        // alert(error.response.message)
+        alert("please login first")
+      }
+    } 
+    
+  
   // console.log(cart)
 
 
@@ -74,7 +76,7 @@ const passid = async (e) => {
                 <div>
                   <br />
                   { cart && cart.some((value) => value.product._id === id) ? (
-                    <button onClick={() => nav("/Cart")}>Go to Cart  </button>
+                    <button onClick={() => nav("/Cart")}>view Cart  </button>
                   ) : (
                     <button id={item._id} onClick={passid}>Add to Cart</button>
                   )

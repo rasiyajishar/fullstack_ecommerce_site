@@ -16,7 +16,7 @@ import  Search  from "./Search";
   mynav1(`/showproduct/${id}`)
   }
 
-  const filteredproduct=products.filter((product)=>product.category==="men");
+  const filteredproduct=products.filter((product)=>product.category==="Men");
  return (
    <>
    <div>

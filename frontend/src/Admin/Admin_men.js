@@ -10,14 +10,21 @@ import { Axios } from "../App";
 
 function Admin_men() {
   const nav = useNavigate();
-  const {category}=useParams()
+  const { category}=useParams()
   console.log(category)
   const { products ,setProducctts} = useContext(mycontext);
 const [categoryData,setCategoryData]= useState([]);
 
 
 
-    // const filteredproduct=products.filter((product)=>product.type==="men");
+const filteredproduct=products.filter((product)=>product.category==="Men");
+console.log("filteredproductadmin",filteredproduct)
+    
+
+
+
+
+
 
 
     useEffect(()=>{
@@ -25,7 +32,8 @@ const [categoryData,setCategoryData]= useState([]);
         try {
           const response = await Axios.get(`admin/products/${category}`);
           console.log(response)
-          // setCategoryData(response.data)
+           setCategoryData(response.data)
+           console.log(response.data.data)
         } catch (error) {
           console.log(error)
         }
@@ -50,7 +58,7 @@ const [categoryData,setCategoryData]= useState([]);
     // );
   return (
     <div className="tablediv">
-      <h2>Product Category Men</h2>
+      <h2>Product Category {category}</h2>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -64,7 +72,7 @@ const [categoryData,setCategoryData]= useState([]);
           </tr>
         </thead>
         <tbody>
-          {products.map((product, i) => (
+          {filteredproduct.map((product, i) => (
             <tr key={products._id}>
               <td>{product._id}</td>
 
@@ -72,7 +80,7 @@ const [categoryData,setCategoryData]= useState([]);
               <td>
                 <img src={product.image} alt="photos" width={50} />
               </td>
-              <td>{products.price}</td>
+              <td>{product.price}</td>
 
               <td>
                  <Button
