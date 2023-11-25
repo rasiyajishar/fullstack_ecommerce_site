@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 import { useContext } from "react";
@@ -7,11 +7,13 @@ import { Axios } from '../App';
 
 const Productupdate = () => {
   const { products, setProducts } = useContext(mycontext);
+  // const[products,setProducts]=useState([]);
   const nav = useNavigate();
 
   const fetchData = async () => {
     try {
       const response = await Axios.get('/admin/products');
+      console.log(response)
       if (response.status === 200) {
         setProducts(response.data.data);
       }
@@ -21,6 +23,7 @@ const Productupdate = () => {
   };
 
   useEffect(() => {
+
     fetchData();
   }, []); 
 

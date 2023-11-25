@@ -290,80 +290,106 @@ const removeCart = async (req, res) => {
 
 
 
-  //addtowishlist
+
+
   const addToWishlist = async (req, res) => {
     try {
-      const productId = req.params.id;
-      const product = await productSchema.findById(productId);
-      console.log(product);
-      if (!product) {
-        return res.json({ message: "Product not found" });
-      }
-  
-      const token = req.cookies.token;
-      const decoded = jwt.verify(token, "secret-key");
-      
-      const user = await userSchema.findOne({ email: decoded.email });
-
+      const userID = req.params.id;
+      const user = await userSchema.findById(userID)
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        return res.json({ message: "user not found" });
       }
-      user.wishlist.push(product);
-      await user.save();
   
-      res.json({ message: "Product added to the wish list" });
+      const { productId } = req.body
+      console.log(productId)
+      const product = await productSchema.findById(productId);
+  
+      if (!product) {
+        return res.json({ message: "product not found" });
+      }
+  
+      await userSchema.findByIdAndUpdate(userID, { $addToSet: { wishlist: productId } });
+  
+      res.json({ message: "Product added to the wishlist" });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
   
+  
+  
+  
+
+
+
+  
   //getwishlist
 
   const getWishlist = async (req, res) => {
     try {
-      const token = req.cookies.token;
-      const verified = jwt.verify(token, "secret-key");
+      
+  const userID=req.params.id
+      const user = await userSchema.findById(userID).populate('wishlist')
   
-      const user = await userSchema.findOne({ email: verified.email });
       if (!user) {
-        return res.status(404).json({ error: "user not found" });
+        return res.status(404).json({ error: "User not found" });
       }
+  
       const wishlistItems = user.wishlist;
-      res
-        .status(200)
-        .json({ message: "your wishlist items", wishlist: wishlistItems });
+  
+      res.status(200).json({ message: "Your  products", wishlist: wishlistItems });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Server error", error: error.message });
     }
   };
   
-  //remove wishlist
-  const removeWishlist = async (req, res) => {
+
+
+  const removeWishlist= async (req, res) => {
     try {
-      const productId = req.params.id;
-      const token = req.cookies.token;
-      const verified = jwt.verify(token, "secret-key");
+    const userID = req.params.id
+    const productID = req.params.product
+
+    const user = await userSchema.findById(userID);
+    if (!user) { return res.status(404).json({ message: 'User not found' }) }
+
+    await userSchema.findByIdAndUpdate(userID, { $pull: { wishlist: productID } });
+    res.status(200).json({ message: "Product removed from your wishlist" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Server error", message: error.message });
+  }
+  }
+
+
+
+  //remove wishlist
+  // const removeWishlist = async (req, res) => {
+  //   try {
+  //     const productId = req.params.id;
+  //     const token = req.cookies.token;
+  //     const verified = jwt.verify(token, "secret-key");
   
-      const user = await userSchema.findOne({ email: verified.email });
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
+  //     const user = await userSchema.findOne({ email: verified.email });
+  //     if (!user) {
+  //       return res.status(404).json({ message: "User not found" });
+  //     }
   
-      const index = user.wishlist.indexOf(productId);
-      if (index == 1) {
-        return res.status(404).json({ message: "Product not found in wishlist" });
-      }
+  //     const index = user.wishlist.indexOf(productId);
+  //     if (index == 1) {
+  //       return res.status(404).json({ message: "Product not found in wishlist" });
+  //     }
   
-      user.wishlist.splice(index, 1);
-      await user.save();
+  //     user.wishlist.splice(index, 1);
+  //     await user.save();
   
-      res.status(200).json({ message: "Product removed from your wishlist" });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Server error", message: error.message });
-    }
-  };
+  //     res.status(200).json({ message: "Product removed from your wishlist" });
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.status(500).json({ error: "Server error", message: error.message });
+  //   }
+  // };
 
 
 

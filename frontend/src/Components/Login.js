@@ -40,7 +40,7 @@ try {
   console.log(response.data.jwt_token)
   alert(response.data.message)
   nav( email === adminmail ? "/Admin" : "/")
- 
+
 } catch (error) {
   console.log(error)
 }

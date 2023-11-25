@@ -6,7 +6,7 @@ import { mycontext } from './Context'
 import { Card } from 'react-bootstrap'
 
 const Showproduct = () => {
-  const { userID, cart, setCart,login } = useContext(mycontext)
+  const { userID, wishlist,setWishlist,cart, setCart,login } = useContext(mycontext)
   const {id}=useParams()
   const [item,setItem] = useState([]);
 
@@ -25,6 +25,7 @@ useEffect(() => {
 },[id]);
   
 const nav = useNavigate();
+const nav1 = useNavigate();
 
 
 
@@ -44,9 +45,34 @@ const passid = async (e) => {
       }
     } 
     
+
+
+    const passid1 = async (e) => {
+      const id = e.target.id;
+      if(login){
+          await Axios.post(`/user/products/wishlist/${userID}`,{productId: id});
+          const response = await Axios.get(`/user/wishlist/${userID}`);
+          console.log(response)
+          setWishlist(response.data.wishlist)
+      
+      }else{
+         
+            console.log("error")
+            // alert(error.response.message)
+            alert("please login first")
+          }
+        } 
   
   // console.log(cart)
 
+
+
+
+
+
+
+
+  
 
   return (
 
@@ -82,6 +108,19 @@ const passid = async (e) => {
                   )
                   }
                   {/* <button onClick={tocart}>View Cart</button> */}
+
+                  <div>
+                  <br />
+
+
+                  { wishlist && wishlist.some((value) => value._id === id) ? (
+                    <button onClick={() => nav1("/Wishlist")}>view wishlist  </button>
+                  ) : (
+                    <button id={item._id} onClick={passid1}>Add to wishlist</button>
+                  )
+                  }
+                  {/* <button onClick={tocart}>View Cart</button> */}
+                </div>
                 </div>
               </Card.Body>
             </div>

@@ -18,9 +18,9 @@ app.post("/products/cart/:id", usercontroller.addTocart);
 app.get("/cart/:id", usercontroller.getCart);
 app.delete("/products/cart/:id/:product", usercontroller.removeCart);
 app.put("/cart/:id",usercontroller.updateCartItemQuantity);
-app.post("/products/wishlist/:id", verifyToken, usercontroller.addToWishlist);
-app.get("/wishlist", verifyToken, usercontroller.getWishlist);
-app.delete("/products/wishlist/:id",verifyToken,usercontroller.removeWishlist);
+app.post("/products/wishlist/:id", usercontroller.addToWishlist);
+app.get("/wishlist/:id", usercontroller.getWishlist);
+app.delete("/products/wishlist/:id",usercontroller.removeWishlist);
 app.get("/order/:id/payment", usercontroller.payment);
 app.get('/payment/success',usercontroller.paymentSuccess)
 app.get('/payment/cancel',usercontroller.paymentCancel)

@@ -23,6 +23,7 @@ import axios from "axios";
 import Order from './Components/Order';
 import Paymentsuccess from './Components/Paymentsuccess';
 import Userdetails from './Admin/Userdetails';
+import Wishlist from './Components/Wishlist';
 
 
 
@@ -49,7 +50,7 @@ const[logout,setLogout]=useState()
 const[searchquery,setSearchquery]=useState('')
 const[searchresults,setSearchresults]=useState([])
 const[products,setProducts]=useState([])
-
+const[wishlist,setWishlist]=useState([])
 const userID = localStorage.getItem("userID")
 const token = localStorage.getItem("jwt_token")
 
@@ -94,6 +95,8 @@ useEffect(() => {
           setLogin,
           username,
           setUsername,
+          wishlist,
+          setWishlist,
           logout,
           setLogout,
           searchquery,
@@ -117,6 +120,7 @@ useEffect(() => {
   <Route path="/Contact" element={<Contact />} />
 <Route path="/Cart" element={<Cart />} />
 <Route path="/Collection" element={<Collection />} />
+<Route path='/Wishlist' element={<Wishlist />} />
 <Route path="/Registration" element={<Registration />} />
 <Route path='/Lookbook' element={<Lookbook />} />
 <Route path="/Showproduct/:id" element={<Showproduct />} />

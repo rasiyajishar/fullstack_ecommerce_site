@@ -1,6 +1,3 @@
-
-
-
 import { useState } from "react";
 import React from "react";
 
@@ -44,12 +41,8 @@ const Navigation = () => {
     searchresults,
     setSearchresults,
     setUsername,
-    token
+    token,
   } = useContext(mycontext);
-
-  
-
-  
 
   const navigate = useNavigate();
   const towomen = () => {
@@ -84,24 +77,24 @@ const Navigation = () => {
     navigate("/Lookbook");
   };
 
-
   const logout = () => {
-    
     setLogin(false);
     alert("logout");
-    setUsername('');
+    setUsername("");
     setCart([]);
-    localStorage.clear()
+    localStorage.clear();
   };
-  console.log("login",login);
-  
+  console.log("login", login);
+
   return (
     <>
-     <div className="head1"><p className="para1">
-     <marquee direction="left" behavior="scroll" scrollamount="6">
-     Free Express Shipping on all orders with all duties included
-  </marquee>
-      </p></div>
+      <div className="head1">
+        <p className="para1">
+          <marquee direction="left" behavior="scroll" scrollamount="6">
+            Free Express Shipping on all orders with all duties included
+          </marquee>
+        </p>
+      </div>
       <MDBNavbar
         className="navclass"
         expand="lg"
@@ -168,7 +161,6 @@ const Navigation = () => {
                 <MDBNavbarLink
                   active
                   aria-current="page"
-                  
                   onClick={tocollection}
                 >
                   COLLECTION
@@ -176,28 +168,20 @@ const Navigation = () => {
               </MDBNavbarItem>
 
               <MDBNavbarItem>
-                <MDBNavbarLink
-                  active
-                  aria-current="page"
-                  
-                  onClick={tocontact}
-                >
+                <MDBNavbarLink active aria-current="page" onClick={tocontact}>
                   CONTACT
                 </MDBNavbarLink>
               </MDBNavbarItem>
 
               <MDBNavbarItem>
-                <MDBNavbarLink onClick={tolookbook} >LOOKBOOK</MDBNavbarLink>
+                <MDBNavbarLink onClick={tolookbook}>LOOKBOOK</MDBNavbarLink>
               </MDBNavbarItem>
 
-             
-             
-               
               <MDBNavbarItem>
-                <MDBNavbarLink  onClick={tocart}>
+                <MDBNavbarLink onClick={tocart}>
                   <BsFillCartFill />{" "}
                   <>
-                    <a className="mx-3" >
+                    <a className="mx-3">
                       <MDBIcon fas icon="shoppingcart" size="sm" />
                       <MDBBadge color="danger" notification pill>
                         {cart.length}
@@ -217,41 +201,31 @@ const Navigation = () => {
                       <MDBDropdownItem link onClick={toregistration}>
                         login
                       </MDBDropdownItem>
-                    
                     </MDBDropdownMenu>
                   ) : (
                     <MDBDropdownMenu>
                       <MDBDropdownItem link>{username}</MDBDropdownItem>
-                      <MDBDropdownItem  onClick={()=>navigate("/Order")}>
-                       &nbsp;&nbsp; Order
+                      <MDBDropdownItem onClick={() => navigate("/Order")}>
+                        &nbsp;&nbsp; Order
                       </MDBDropdownItem>
+
+                      <MDBDropdownItem onClick={() => navigate("/Wishlis")}>
+                        &nbsp;&nbsp; Wishlist
+                      </MDBDropdownItem>
+
                       <MDBDropdownItem link onClick={logout}>
                         logout
                       </MDBDropdownItem>
-                      
                     </MDBDropdownMenu>
                   )}
                 </MDBDropdown>
               </MDBNavbarItem>
             </MDBNavbarNav>
-
-            
           </MDBCollapse>
         </MDBContainer>
       </MDBNavbar>
-
-      
-      
-
-      
-      
-     
-     
-    </>                     
-    
+    </>
   );
 };
 
 export default Navigation;
-
-

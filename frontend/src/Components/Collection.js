@@ -32,7 +32,7 @@ mynav(`/showproduct/${id}`)
                   className="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
                   style={{ width: "35px", height: "35px" }}
                 >
-                  <p className="text-white mb-0 small">Shoe</p>
+                  <p className="text-white mb-0 small">NEW</p>
                 </div>
               </div>
               <Card.Img
