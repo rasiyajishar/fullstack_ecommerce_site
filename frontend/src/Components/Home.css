@@ -69,7 +69,7 @@ justify-content: center;  */
 .bgimg{
     position: relative;
 
-    background-image: url("E:\react tutorial\shoe-e-commerce\src\image7.png");
+    background-image: url("F:\react tutorial\shoe-e-commerce\src\image7.png");
      height:100vh;
     width:100%; 
     margin: 0px auto;
@@ -481,7 +481,7 @@ margin-left:250px ;
   .lookimage{
    width: 95%; 
    height: 500px;
-   background-image: url("E:\react tutorial\shoe-e-commerce\src\image9.jpg");
+   background-image: url("F:\react tutorial\shoe-e-commerce\src\image9.jpg");
   }
   .lookbook{
     letter-spacing: 5px;
